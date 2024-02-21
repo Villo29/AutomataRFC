@@ -41,6 +41,3 @@ if is_valid:
     print(f"La cadena '{user_input}' es correcto deacuerdo al DFA.")
 else:
     print(f"La cadena '{user_input}' es incorrecta.")
-    
-# Curp/RFC con mis 4 iniciales  ->  GUAD
-#Expresión regular              ->  ^[gG][uU]?[aA]?[dD]?$
