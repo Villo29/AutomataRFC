@@ -1,43 +1,49 @@
-class Automaton:
-    def __init__(self):
-        self.states = [0, 1, 2, 3, 4]
-        self.final_states = [1, 2, 3, 4]
-        self.alphabet = ['R', 'U', 'G', 'J', 'r', 'u', 'g', 'j']
-        self.transition_table = {
-            (0, 'R'): 1, (0, 'r'): 1,
-            (1, 'U'): 2, (1, 'u'): 2,
-            (2, 'G'): 3, (2, 'g'): 3,
-            (3, 'J'): 4, (3, 'j'): 4
-        }
-        self.current_state = 0
+import tkinter as tk
 
-    def transition_to_state_with_input(self, input_value):
-        if (self.current_state, input_value) not in self.transition_table:
-            self.current_state = None
-        else:
-            self.current_state = self.transition_table[(self.current_state, input_value)]
+class AfApp:
+    def __init__(self, root):
+        self.Letters = ["R", "U", "G", "J"]
+        self.input = tk.StringVar()
+        self.input.trace_add("write", self.handle_input_change)
 
-    def in_accept_state(self):
-        return self.current_state in self.final_states
+        root.title("Automata Finito")
+        root.geometry("800x400")
 
-    def go_to_initial_state(self):
-        self.current_state = 0
+        label = tk.Label(root, text="Ingresa la cadena 'RUGJ'", font=("Arial", 16))
+        label.pack(pady=10)
 
-    def run_with_input_list(self, input_list):
-        self.go_to_initial_state()
-        for inp in input_list:
-            self.transition_to_state_with_input(inp)
-            if self.current_state is None:
-                return False
-        return self.in_accept_state()
+        entry = tk.Entry(root, textvariable=self.input, font=("Arial", 14), fg="black")
+        entry.pack(pady=10)
 
-dfa = Automaton()
+        self.canvas = tk.Canvas(root, bg="white", width=800, height=200)
+        self.canvas.pack()
 
-user_input = input("Inserte la cadena: ")
+    def handle_input_change(self, *args):
+        value = self.input.get().upper()
+        if len(value) <= 4 and all(char in self.Letters for char in value) and value.startswith('R'):
+            self.draw_states_and_arrows(value)
 
-is_valid = dfa.run_with_input_list(user_input)
+    def draw_states_and_arrows(self, input_str):
+        self.canvas.delete("all")
+        num_states = min(5, len(input_str) + 1)
+        state_radius = 30
+        state_x = 100
+        state_y = 100
+        state_distance = 150
 
-if is_valid:
-    print(f"La cadena '{user_input}' es correcto deacuerdo al DFA.")
-else:
-    print(f"La cadena '{user_input}' es incorrecta.")
+        for i in range(num_states):
+            self.canvas.create_oval(state_x, state_y, state_x + 2*state_radius, state_y + 2*state_radius, outline="black", fill="lightgreen")
+            self.canvas.create_text(state_x + state_radius, state_y + state_radius, text=f"q{i}", fill="black", font=("Arial", 14))
+
+            if i < num_states - 1:
+                self.canvas.create_line(state_x + 2*state_radius, state_y + state_radius, state_x + 2*state_radius + state_distance, state_y + state_radius, fill="green", width=2, arrow=tk.LAST)
+                self.canvas.create_text(state_x + 2*state_radius + state_distance//2, state_y + state_radius - 20, text=input_str[i].upper(), fill="white", font=("Arial", 14))
+                # Agregar letra en la flecha
+                self.canvas.create_text(state_x + 2*state_radius + state_distance//2, state_y + state_radius + 20, text=input_str[i].upper(), fill="black", font=("Arial", 14))
+
+            state_x += state_distance
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = AfApp(root)
+    root.mainloop()
