@@ -1,18 +1,18 @@
 import tkinter as tk
 
-class AfApp:
+class Curp:
     def __init__(self, root):
         self.Letters = ["R", "U", "G", "J"]
         self.input = tk.StringVar()
         self.input.trace_add("write", self.handle_input_change)
 
-        root.title("Automata Finito")
+        root.title("AUTOMATA CURP/RFC")
         root.geometry("800x400")
 
-        label = tk.Label(root, text="Ingresa la cadena 'RUGJ'", font=("Arial", 16))
+        label = tk.Label(root, text="Ingresa la cadena 'RUGJ'")
         label.pack(pady=10)
 
-        entry = tk.Entry(root, textvariable=self.input, font=("Arial", 14), fg="black")
+        entry = tk.Entry(root, textvariable=self.input)
         entry.pack(pady=10)
 
         self.canvas = tk.Canvas(root, bg="white", width=800, height=200)
@@ -45,5 +45,5 @@ class AfApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = AfApp(root)
+    app = Curp(root)
     root.mainloop()
