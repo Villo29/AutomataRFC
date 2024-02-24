@@ -32,13 +32,11 @@ class Curp:
         state_distance = 150
 
         for i in range(num_states):
-            self.canvas.create_oval(state_x, state_y, state_x + 2*state_radius, state_y + 2*state_radius, outline="black", fill="lightgreen")
+            self.canvas.create_oval(state_x, state_y, state_x + 2*state_radius, state_y + 2*state_radius, outline="black", fill="white")
             self.canvas.create_text(state_x + state_radius, state_y + state_radius, text=f"q{i}", fill="black", font=("Arial", 14))
 
             if i < num_states - 1:
-                self.canvas.create_line(state_x + 2*state_radius, state_y + state_radius, state_x + 2*state_radius + state_distance, state_y + state_radius, fill="green", width=2, arrow=tk.LAST)
-                self.canvas.create_text(state_x + 2*state_radius + state_distance//2, state_y + state_radius - 20, text=input_str[i].upper(), fill="white", font=("Arial", 14))
-                # Agregar letra en la flecha
+                self.canvas.create_line(state_x + 2*state_radius, state_y + state_radius, state_x + 2*state_radius + state_distance, state_y + state_radius, fill="black", width=2, arrow=tk.LAST)
                 self.canvas.create_text(state_x + 2*state_radius + state_distance//2, state_y + state_radius + 20, text=input_str[i].upper(), fill="black", font=("Arial", 14))
 
             state_x += state_distance
